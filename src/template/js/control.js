@@ -916,7 +916,8 @@ $(document).ready(function() {
 				"serialnumber" : $('#serialnumber').val(),
 				"devicetype" : $('#devicetype').val(),
 				"country" : $('#country').val(),
-				"agentip" : $('#tagentip').val()
+				"agentip" : $('#tagentip').val(),
+				"usenc": $('#checkusenc').prop('checked')
 			},
 			success : function(result) {
 
@@ -947,6 +948,31 @@ $(document).ready(function() {
 			}
 		});
 	})
+	
+	$('#btnsyncdevicecfg').click(function() {
+		var sw = $('#tbsoftware').appendGrid('getAllValue');
+		var hw = $('#tbhardware').appendGrid('getAllValue');
+		
+		$.ajax({
+			type : "POST",
+			url : "/syncdevicecfg",
+			data : {
+				"serialnumber" : $('#serialnumber').val(),
+				"devicetype" : $('#devicetype').val(),
+				"country" : $('#country').val(),
+				"software" : JSON.stringify(sw),
+				"hardware" : JSON.stringify(hw),
+				"agentip" : $('#tagentip').val()
+			},
+			success : function(result) {
+				if (result.length > 0) {
+					UpdateMessageinWeb(JSON.parse(result));
+				}
+			}
+		});
+	})
+	
+	
 
 	$('#btngetheaders').click(function() {
 		$.ajax({
@@ -1110,7 +1136,45 @@ $(document).ready(function() {
 				'Revision' : 'F'
 			} ];
 
-		} else {
+		}else if (devicetype == 'CEFC1E07-CFF6-4F27-AB05-4577A33A1BA8'){
+			initswdata = [ {
+				'ComponentType' : 'software',
+				'Name' : 'Perc',
+				'PartNumber' : '',
+				'Revision' : '46'
+			} ];
+			inithwdata = [ {
+				'Name' : 'Controller',
+				'PartNumber' : '1078620',
+				'Revision' : 'A'
+			}, {
+				'Name' : 'SteeringRelay',
+				'PartNumber' : '1070817',
+				'Revision' : 'A'
+			} , {
+				'Name' : 'Rf',
+				'PartNumber' : '1070821',
+				'Revision' : 'B'
+			}, {
+				'Name' : 'PowerSupply',
+				'PartNumber' : '1054954',
+				'Revision' : 'B'
+			}, {
+				'Name' : 'FrontPanel',
+				'PartNumber' : '1078579',
+				'Revision' : 'A'
+			}, {
+				'Name' : 'Vibe',
+				'PartNumber' : '1070817',
+				'Revision' : 'A'
+			}];
+			
+			
+			
+		}else if (devicetype == '61BF648E-3181-41e4-9EF2-222F8DF8B538'){
+			
+			
+		}else {
 			initswdata = null;
 			inithwdata = null;
 		}

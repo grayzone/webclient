@@ -3,10 +3,10 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"code.google.com/p/go-uuid/uuid"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"code.google.com/p/go-uuid/uuid"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -48,6 +48,7 @@ type Param struct {
 	Reason                string `xml:"reason,omitempty"`
 	Timestamp             string `xml:"timestamp,omitempty"`
 	CacheTimeOut          string `xml:"cache_timeout,omitempty"`
+	Format                string `xml:"format,omitempty"`
 }
 
 type UserLogin struct {
@@ -107,18 +108,29 @@ type Logs struct {
 }
 
 type NotificationBody struct {
-	Components      *Components `xml:"components,omitempty"`
-	Logs            *Logs       `xml:"logs,omitempty"`
-	Features        *Features   `xml:"features,omitempty"`
-	URI             string      `xml:"uri,omitempty"`
-	SoftwareVersion string      `xml:"software_version,omitempty"`
-	FileSize        string      `xml:"file_size,omitempty"`
-	MD5Sum          string      `xml:"md5sum,omitempty"`
-	Software        string      `xml:"software,omitempty"`
-	Version         string      `xml:"version,omitempty"`
-	UpdateType      string      `xml:"update_type,omitempty"`
-	Expiration      string      `xml:"expiration,omitempty"`
-	IsAccessible    string      `xml:"is_Accessible,omitempty"`
+	Components      *Components  `xml:"components,omitempty"`
+	NcSysConfig     *NCSysConfig `xml:"system_config,omitempty"`
+	Logs            *Logs        `xml:"logs,omitempty"`
+	Features        *Features    `xml:"features,omitempty"`
+	URI             string       `xml:"uri,omitempty"`
+	SoftwareVersion string       `xml:"software_version,omitempty"`
+	FileSize        string       `xml:"file_size,omitempty"`
+	MD5Sum          string       `xml:"md5sum,omitempty"`
+	Software        string       `xml:"software,omitempty"`
+	Version         string       `xml:"version,omitempty"`
+	UpdateType      string       `xml:"update_type,omitempty"`
+	Expiration      string       `xml:"expiration,omitempty"`
+	IsAccessible    string       `xml:"is_Accessible,omitempty"`
+}
+
+type NCSysConfig struct {
+	ConfigType string     `xml:"type,attr"`
+	NCConfig   []NCConfig `xml:"config"`
+}
+
+type NCConfig struct {
+	ConfigType string      `xml:"type,attr"`
+	Component  []Component `xml:"component"`
 }
 
 type Components struct {
@@ -290,7 +302,7 @@ func ReadFromSocket(conn net.Conn) ([]byte, error) {
 func (m *MessageString) ProcessMessage(ip string) error {
 
 	conn, err := net.Dial("tcp", ip+":9999")
-	
+
 	if err != nil {
 		fmt.Println(err.Error())
 		return err
@@ -529,6 +541,12 @@ func statdeviceHandler(w http.ResponseWriter, r *http.Request) {
 
 		param.Country = r.PostFormValue("country")
 
+		usenc := r.PostFormValue("usenc")
+		fmt.Println(usenc)
+		if usenc == "true" {
+			param.Format = "named_configuration"
+		}
+
 		msg.Request = msg.ReqMsg.toString()
 		ip := r.FormValue("agentip")
 		msg.ProcessMessage(ip)
@@ -665,7 +683,7 @@ func getNotificationByOIDHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 
 		param := msg.ReqMsg.Request.Params
-		
+
 		r.ParseForm()
 		oid := r.PostFormValue("oid")
 		param.NotificationOID = oid
@@ -921,12 +939,12 @@ func changeFeatureStatusHandler(w http.ResponseWriter, r *http.Request) {
 		msg.Status = err.Error()
 		msg.Request = msg.ReqMsg.toString()
 	} else {
-/*
-		param := &Param{}
-		msg.ReqMsg.Request.Params = param
+		/*
+			param := &Param{}
+			msg.ReqMsg.Request.Params = param
 
-		param.Timestamp = fmt.Sprintf("%d", time.Now().Unix())
-*/
+			param.Timestamp = fmt.Sprintf("%d", time.Now().Unix())
+		*/
 		ntf := &Notification{}
 		msg.ReqMsg.Request.Notification = ntf
 
@@ -1005,12 +1023,12 @@ func uploadLogHandler(w http.ResponseWriter, r *http.Request) {
 		msg.Status = err.Error()
 		msg.Request = msg.ReqMsg.toString()
 	} else {
-/*
-		param := &Param{}
-		msg.ReqMsg.Request.Params = param
+		/*
+			param := &Param{}
+			msg.ReqMsg.Request.Params = param
 
-		param.Timestamp = fmt.Sprintf("%d", time.Now().Unix())
-*/
+			param.Timestamp = fmt.Sprintf("%d", time.Now().Unix())
+		*/
 		ntf := &Notification{}
 		msg.ReqMsg.Request.Notification = ntf
 
