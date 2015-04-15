@@ -108,19 +108,23 @@ type Logs struct {
 }
 
 type NotificationBody struct {
-	Components      *Components  `xml:"components,omitempty"`
-	NcSysConfig     *NCSysConfig `xml:"system_config,omitempty"`
-	Logs            *Logs        `xml:"logs,omitempty"`
-	Features        *Features    `xml:"features,omitempty"`
-	URI             string       `xml:"uri,omitempty"`
-	SoftwareVersion string       `xml:"software_version,omitempty"`
-	FileSize        string       `xml:"file_size,omitempty"`
-	MD5Sum          string       `xml:"md5sum,omitempty"`
-	Software        string       `xml:"software,omitempty"`
-	Version         string       `xml:"version,omitempty"`
-	UpdateType      string       `xml:"update_type,omitempty"`
-	Expiration      string       `xml:"expiration,omitempty"`
-	IsAccessible    string       `xml:"is_Accessible,omitempty"`
+	Components       *Components       `xml:"components,omitempty"`
+	DeviceTypeConfig *DeviceTypeConfig `xml:"devicetype_config,omitempty"`
+	Logs             *Logs             `xml:"logs,omitempty"`
+	Features         *Features         `xml:"features,omitempty"`
+	URI              string            `xml:"uri,omitempty"`
+	SoftwareVersion  string            `xml:"software_version,omitempty"`
+	FileSize         string            `xml:"file_size,omitempty"`
+	MD5Sum           string            `xml:"md5sum,omitempty"`
+	Software         string            `xml:"software,omitempty"`
+	Version          string            `xml:"version,omitempty"`
+	UpdateType       string            `xml:"update_type,omitempty"`
+	Expiration       string            `xml:"expiration,omitempty"`
+	IsAccessible     string            `xml:"is_Accessible,omitempty"`
+}
+
+type DeviceTypeConfig struct {
+	NcSysConfig *NCSysConfig `xml:"system_config"`
 }
 
 type NCSysConfig struct {
@@ -138,7 +142,7 @@ type Components struct {
 }
 
 type Component struct {
-	ComponentType  string    `xml:"type,attr"`
+	ComponentType  string    `xml:"type,attr,omitempty"`
 	Name           string    `xml:"name,omitempty"`
 	PartNumber     string    `xml:"part_number,omitempty"`
 	Revision       string    `xml:"revision,omitempty"`
@@ -231,6 +235,7 @@ type MessageString struct {
 
 const MESSAGE_SCHEMA_VERSION = "3644767c-2632-411a-9416-44f8a7dee08e"
 const MESSAGE_ACTION_DEVICE_INFO = "532ffdda-6f38-41da-9a40-cb0801e6695f"
+const MESSAGE_ACTION_NC = "532ffdda-6f38-41da-9a40-cb0801e67dfa"
 const MESSAGE_ACTION_DEVICE_SOFTWARE_UPGRADE_PACKAGE = "24637560-edb3-4961-b17d-14e74f74457c"
 const MESSAGE_ACTION_DEVICE_SOFTWARE_DOWNLOAD_ACK = "91dec715-f256-421a-8560-e6b015dae5f9"
 const MESSAGE_ACTION_FEATURE_ENTITLED = "832ffdda-6f38-a1dc-9af0-cb0801e6695d"
@@ -571,10 +576,10 @@ func createdeviceHandler(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
 		devicetype := r.PostFormValue("devicetype")
 		serialnumber := r.PostFormValue("serialnumber")
+		country := r.PostFormValue("country")
 
 		param.DeviceURL = fmt.Sprintf("{%s}/{%s}", devicetype, serialnumber)
-
-		param.Country = r.PostFormValue("country")
+		param.Country = country
 
 		msg.Request = msg.ReqMsg.toString()
 		ip := r.FormValue("agentip")
@@ -602,6 +607,78 @@ func getheaderHandler(w http.ResponseWriter, r *http.Request) {
 		serialnumber := r.PostFormValue("serialnumber")
 
 		param.DeviceURL = fmt.Sprintf("{%s}/{%s}", devicetype, serialnumber)
+
+		msg.Request = msg.ReqMsg.toString()
+		ip := r.FormValue("agentip")
+		msg.ProcessMessage(ip)
+		msg.FormatResponse()
+		msg.GetStatus()
+	}
+
+	msg.SendResponse(w)
+
+}
+
+func getMatchedConfigHandler(w http.ResponseWriter, r *http.Request) {
+msg := MessageString{}
+	err := msg.InitRequest("postnotification", r)
+
+	if err != nil {
+		msg.Status = err.Error()
+		msg.Request = msg.ReqMsg.toString()
+	} else {
+
+		param := msg.ReqMsg.Request.Params
+
+		r.ParseForm()
+		devicetype := r.PostFormValue("devicetype")
+		serialnumber := r.PostFormValue("serialnumber")
+		country := r.PostFormValue("country")
+
+		param.DeviceURL = fmt.Sprintf("{%s}/{%s}", devicetype, serialnumber)
+		param.Country = country
+
+		ntf := &Notification{}
+		msg.ReqMsg.Request.Notification = ntf
+
+		ntf.OID = uuid.NewUUID().String()
+		ntf.Header.NotificationType = "event"
+		ntf.Header.NotificationAction = "getMatchedCfg"
+		ntf.Header.PertinentType = fmt.Sprintf("%s/%s", devicetype, MESSAGE_ACTION_NC)
+		ntf.Header.PertinentIdentifier = serialnumber
+
+		cpnts := &NCSysConfig{}
+		devicetypecfg := &DeviceTypeConfig{}
+		devicetypecfg.NcSysConfig = cpnts
+		ntf.Body.DeviceTypeConfig = devicetypecfg
+
+		cpnts.ConfigType = "running_config"
+
+		nccfg := []NCConfig{}
+
+		r.ParseForm()
+		sw := r.PostFormValue("software")
+		hw := r.PostFormValue("hardware")
+
+		swcomponent := []Component{}
+		hwcomponent := []Component{}
+		json.Unmarshal([]byte(sw), &swcomponent)
+		json.Unmarshal([]byte(hw), &hwcomponent)
+
+		cfghw := NCConfig{}
+		cfghw.ConfigType = "HARDWARE"
+		for i, _ := range hwcomponent {
+			cfghw.Component = append(cfghw.Component, hwcomponent[i])
+		}
+		nccfg = append(nccfg, cfghw)
+
+		cfgsw := NCConfig{}
+		cfgsw.ConfigType = "SOFTWARE"
+		for i, _ := range swcomponent {
+			cfgsw.Component = append(cfgsw.Component, swcomponent[i])
+		}
+		nccfg = append(nccfg, cfgsw)
+		cpnts.NCConfig = nccfg
 
 		msg.Request = msg.ReqMsg.toString()
 		ip := r.FormValue("agentip")
@@ -662,6 +739,77 @@ func postNotificationHandler(w http.ResponseWriter, r *http.Request) {
 			swcomponent[i].ComponentType = "software"
 			cpnts.Component = append(cpnts.Component, swcomponent[i])
 		}
+
+		msg.Request = msg.ReqMsg.toString()
+		ip := r.FormValue("agentip")
+		msg.ProcessMessage(ip)
+		msg.FormatResponse()
+		msg.GetStatus()
+	}
+
+	msg.SendResponse(w)
+}
+
+func syncDevicecfgHandler(w http.ResponseWriter, r *http.Request) {
+
+	msg := MessageString{}
+	err := msg.InitRequest("postnotification", r)
+
+	if err != nil {
+		msg.Status = err.Error()
+		msg.Request = msg.ReqMsg.toString()
+	} else {
+
+		param := msg.ReqMsg.Request.Params
+
+		r.ParseForm()
+		devicetype := r.PostFormValue("devicetype")
+		serialnumber := r.PostFormValue("serialnumber")
+
+		param.DeviceURL = fmt.Sprintf("{%s}/{%s}", devicetype, serialnumber)
+		param.Country = r.PostFormValue("country")
+
+		ntf := &Notification{}
+		msg.ReqMsg.Request.Notification = ntf
+
+		ntf.OID = uuid.NewUUID().String()
+		ntf.Header.NotificationType = "event"
+		ntf.Header.NotificationAction = "syncDeviceCfg"
+		ntf.Header.PertinentType = fmt.Sprintf("%s/%s", devicetype, MESSAGE_ACTION_NC)
+		ntf.Header.PertinentIdentifier = serialnumber
+
+		cpnts := &NCSysConfig{}
+		devicetypecfg := &DeviceTypeConfig{}
+		devicetypecfg.NcSysConfig = cpnts
+		ntf.Body.DeviceTypeConfig = devicetypecfg
+
+		cpnts.ConfigType = "running_config"
+
+		nccfg := []NCConfig{}
+
+		r.ParseForm()
+		sw := r.PostFormValue("software")
+		hw := r.PostFormValue("hardware")
+
+		swcomponent := []Component{}
+		hwcomponent := []Component{}
+		json.Unmarshal([]byte(sw), &swcomponent)
+		json.Unmarshal([]byte(hw), &hwcomponent)
+
+		cfghw := NCConfig{}
+		cfghw.ConfigType = "HARDWARE"
+		for i, _ := range hwcomponent {
+			cfghw.Component = append(cfghw.Component, hwcomponent[i])
+		}
+		nccfg = append(nccfg, cfghw)
+
+		cfgsw := NCConfig{}
+		cfgsw.ConfigType = "SOFTWARE"
+		for i, _ := range swcomponent {
+			cfgsw.Component = append(cfgsw.Component, swcomponent[i])
+		}
+		nccfg = append(nccfg, cfgsw)
+		cpnts.NCConfig = nccfg
 
 		msg.Request = msg.ReqMsg.toString()
 		ip := r.FormValue("agentip")
@@ -1297,7 +1445,9 @@ func main() {
 	http.HandleFunc("/statdevice", statdeviceHandler)
 	http.HandleFunc("/createdevice", createdeviceHandler)
 	http.HandleFunc("/getheaders", getheaderHandler)
+	http.HandleFunc("/getmatchedcfg", getMatchedConfigHandler)
 	http.HandleFunc("/postnotification", postNotificationHandler)
+	http.HandleFunc("/syncdevicecfg", syncDevicecfgHandler)
 	http.HandleFunc("/getnotificationbyoid", getNotificationByOIDHandler)
 	http.HandleFunc("/viewdocument", viewDocumentHandler)
 	http.HandleFunc("/upgradesoftware", upgradeSoftwareHandler)
