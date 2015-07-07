@@ -5,9 +5,9 @@ $(document).ready(function() {
 
 	$('#btngeturl').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/getserviceurl",
-			success : function(result) {
+			type: "POST",
+			url: "/getserviceurl",
+			success: function(result) {
 				$("#turl").val(result);
 
 			}
@@ -16,21 +16,40 @@ $(document).ready(function() {
 
 	$('#btnupdateurl').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/updateserviceurl",
-			data : {
-				"url" : $("#turl").val()
+			type: "POST",
+			url: "/updateserviceurl",
+			data: {
+				"url": $("#turl").val()
 			},
-			success : function(result) {
-			}
+			success: function(result) {}
 		});
 	});
 
+	$('#btnhidediv').click(function() {
+		if ($('#divswhwtables').is(':visible')) {
+			$("#divswhwtables").hide();
+		} else {
+			$("#divswhwtables").show();
+		}
+		if ($('#divnotification').is(':visible')) {
+			$("#divnotification").hide();
+		} else {
+			$("#divnotification").show();
+		}
+		if ($('#divsnotificationrule').is(':visible')) {
+			$("#divsnotificationrule").hide();
+		} else {
+			$("#divsnotificationrule").show();
+		}
+
+	});
+
+
 	$('#btngetloglevel').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/getloglevel",
-			success : function(result) {
+			type: "POST",
+			url: "/getloglevel",
+			success: function(result) {
 				$("#tloglevel").val(result);
 
 			}
@@ -39,22 +58,20 @@ $(document).ready(function() {
 
 	$('#btnupdateLoglevel').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/updateloglevel",
-			data : {
-				"loglevel" : $("#tloglevel").val()
+			type: "POST",
+			url: "/updateloglevel",
+			data: {
+				"loglevel": $("#tloglevel").val()
 			},
-			success : function(result) {
-			}
+			success: function(result) {}
 		});
 	});
 
 	$('#btnemptylog').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/emptylog",
-			success : function(result) {
-			}
+			type: "POST",
+			url: "/emptylog",
+			success: function(result) {}
 		});
 	});
 
@@ -62,59 +79,59 @@ $(document).ready(function() {
 	var timer = null;
 
 	$('#tbagentstatus').appendGrid({
-		caption : 'Agent Status',
-		initData : [ {} ],
-		hideRowNumColumn : true,
-		columns : [ {
-			name : 'AgentStatus',
-			display : 'Agent Status',
-			resizable : true
+		caption: 'Agent Status',
+		initData: [{}],
+		hideRowNumColumn: true,
+		columns: [{
+			name: 'AgentStatus',
+			display: 'Agent Status',
+			resizable: true
 		}, {
-			name : 'ServerStatus',
-			display : 'Server Status',
-			resizable : true
+			name: 'ServerStatus',
+			display: 'Server Status',
+			resizable: true
 		}, {
-			name : 'ServerAvailable',
-			display : 'Server Available',
-			resizable : true
+			name: 'ServerAvailable',
+			display: 'Server Available',
+			resizable: true
 		}, {
-			name : 'CacheTimeOut',
-			display : 'Cache Time Out',
-			resizable : true
+			name: 'CacheTimeOut',
+			display: 'Cache Time Out',
+			resizable: true
 		}, {
-			name : 'DataReady',
-			display : 'Data Ready',
-			resizable : true
+			name: 'DataReady',
+			display: 'Data Ready',
+			resizable: true
 		}, {
-			name : 'Datetime',
-			display : 'Datetime',
-			resizable : true
+			name: 'Datetime',
+			display: 'Datetime',
+			resizable: true
 		}, {
-			name : 'JobStatus',
-			display : 'Job Status',
-			resizable : true
+			name: 'JobStatus',
+			display: 'Job Status',
+			resizable: true
 		}, {
-			name : 'LastUpdate',
-			display : 'Last Update',
-			resizable : true
+			name: 'LastUpdate',
+			display: 'Last Update',
+			resizable: true
 		}, {
-			name : 'Timestamp',
-			display : 'Timestamp',
-			resizable : true
+			name: 'Timestamp',
+			display: 'Timestamp',
+			resizable: true
 		}, {
-			name : 'UploadTime',
-			display : 'Upload Time',
-			resizable : true
+			name: 'UploadTime',
+			display: 'Upload Time',
+			resizable: true
 		}, {
-			name : 'DownloadTime',
-			display : 'Download Time',
-			resizable : true
-		} ],
-		customRowButtons : [ {
-			uiButton : {
-				label : 'Get'
+			name: 'DownloadTime',
+			display: 'Download Time',
+			resizable: true
+		}],
+		customRowButtons: [{
+			uiButton: {
+				label: 'Get'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				if (timer) {
 					clearInterval(timer);
 					timer = null;
@@ -123,141 +140,140 @@ $(document).ready(function() {
 				}
 
 			},
-			atTheFront : true
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true,
-			remove : true,
-			append : true
+			atTheFront: true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true,
+			remove: true,
+			append: true
 		}
 
 	});
 
-	var initswdata = [ {
-		'ComponentType' : 'software',
-		'Name' : 'Control',
-		'PartNumber' : '0',
-		'Revision' : '01.08.01'
-	} ];
+	var initswdata = [{
+		'ComponentType': 'software',
+		'Name': 'Control',
+		'PartNumber': '0',
+		'Revision': '01.08.01'
+	}];
 
 	$('#tbsoftware').appendGrid({
-		caption : 'Software',
-		initData : initswdata,
-		columns : [ {
-			name : 'ComponentType',
-			display : 'Type',
-			resizable : true,
-			type : 'select',
-			ctrlOptions : 'software;business rules'
+		caption: 'Software',
+		initData: initswdata,
+		columns: [{
+			name: 'ComponentType',
+			display: 'Type',
+			resizable: true,
+			type: 'select',
+			ctrlOptions: 'software;business rules'
 
 		}, {
-			name : 'Name',
-			display : 'Name',
-			resizable : true
+			name: 'Name',
+			display: 'Name',
+			resizable: true
 		}, {
-			name : 'PartNumber',
-			display : 'Part Number',
-			resizable : true
+			name: 'PartNumber',
+			display: 'Part Number',
+			resizable: true
 		}, {
-			name : 'Revision',
-			display : 'Revision',
-			resizable : true
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true
+			name: 'Revision',
+			display: 'Revision',
+			resizable: true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true
 		}
 	});
 
-	var inithwdata = [ {
-		'Name' : 'WINTEL',
-		'PartNumber' : 'ABC',
-		'Revision' : '1.0'
+	var inithwdata = [{
+		'Name': 'WINTEL',
+		'PartNumber': 'ABC',
+		'Revision': '1.0'
 	}, {
-		'Name' : 'Control Board',
-		'PartNumber' : '0',
-		'Revision' : '0'
-	} ];
+		'Name': 'Control Board',
+		'PartNumber': '0',
+		'Revision': '0'
+	}];
 	$('#tbhardware').appendGrid({
-		caption : 'Hardware',
-		initData : inithwdata,
-		columns : [ {
-			name : 'Name',
-			display : 'Name',
-			resizable : true
+		caption: 'Hardware',
+		initData: inithwdata,
+		columns: [{
+			name: 'Name',
+			display: 'Name',
+			resizable: true
 		}, {
-			name : 'PartNumber',
-			display : 'Part Number',
-			resizable : true
+			name: 'PartNumber',
+			display: 'Part Number',
+			resizable: true
 		}, {
-			name : 'Revision',
-			display : 'Revision',
-			resizable : true
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true
+			name: 'Revision',
+			display: 'Revision',
+			resizable: true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true
 		}
 
 	});
 
 	$('#tbnotificationsw').appendGrid({
-		caption : 'Notifications-SOFTWARE',
-		initData : [ {} ],
-		columns : [ {
-			name : 'Oid',
-			display : 'OID',
-			resizable : true
+		caption: 'Notifications-SOFTWARE',
+		initData: [{}],
+		columns: [{
+			name: 'Oid',
+			display: 'OID',
+			resizable: true
 		}, {
-			name : 'SoftwareStatus',
-			display : 'Software Status',
-			resizable : true
+			name: 'SoftwareStatus',
+			display: 'Software Status',
+			resizable: true
 		}, {
-			name : 'Name',
-			display : 'Name',
-			resizable : true
+			name: 'Name',
+			display: 'Name',
+			resizable: true
 		}, {
-			name : 'Revision',
-			display : 'Revision',
-			resizable : true
+			name: 'Revision',
+			display: 'Revision',
+			resizable: true
 		}, {
-			name : 'PartNumber',
-			display : 'Part Number',
-			resizable : true
+			name: 'PartNumber',
+			display: 'Part Number',
+			resizable: true
 		}, {
-			name : 'Language',
-			display : 'Language',
-			resizable : true
+			name: 'Language',
+			display: 'Language',
+			resizable: true
 		}, {
-			name : 'PertinentType',
-			display : 'Pertinent Type',
-			resizable : true,
-			invisible : true
+			name: 'PertinentType',
+			display: 'Pertinent Type',
+			resizable: true,
+			invisible: true
 		}, {
-			name : 'PertinentIdentifier',
-			display : 'Pertinent Identifier',
-			resizable : true,
-			invisible : true
-		},{
-			name : 'Features',
-			display : 'Features',
-//			type : 'select',
-			resizable : true,
-			invisible : false
-		} 
-		],
-		customRowButtons : [ {
-			uiButton : {
-				label : 'Get'
+			name: 'PertinentIdentifier',
+			display: 'Pertinent Identifier',
+			resizable: true,
+			invisible: true
+		}, {
+			name: 'Features',
+			display: 'Features',
+			//			type : 'select',
+			resizable: true,
+			invisible: false
+		}],
+		customRowButtons: [{
+			uiButton: {
+				label: 'Get'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				var result = GetNotificationByOID(rowData.Oid)
 				var s = JSON.parse(result);
 				var component = s.ResMsg.Response.Notifications.Notification[0].Body.Components.Component[0];
@@ -270,91 +286,91 @@ $(document).ready(function() {
 				$('#tbnotificationsw').appendGrid('setCtrlValue', 'PertinentType', uniqueIndex - 1, s.ResMsg.Response.Notifications.Notification[0].Header.PertinentType);
 				$('#tbnotificationsw').appendGrid('setCtrlValue', 'PertinentIdentifier', uniqueIndex - 1, s.ResMsg.Response.Notifications.Notification[0].Header.PertinentIdentifier);
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Upgrade'
+			uiButton: {
+				label: 'Upgrade'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				UpgradeSoftware(rowData)
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'OK'
+			uiButton: {
+				label: 'OK'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				SendInstallStatus(rowData, "installed")
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Failed'
+			uiButton: {
+				label: 'Failed'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				SendInstallStatus(rowData, "failed")
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Not Attempted'
+			uiButton: {
+				label: 'Not Attempted'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				SendInstallStatus(rowData, "not attempted")
 			},
-			atTheFront : true
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true,
-			remove : true,
-			append : true
+			atTheFront: true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true,
+			remove: true,
+			append: true
 		}
 
 	});
 
 	$('#tbnotificationdoc').appendGrid({
-		caption : 'Notifications-DOCUMENT',
-		initData : [ {} ],
-		columns : [ {
-			name : 'Oid',
-			display : 'OID',
-			resizable : true
+		caption: 'Notifications-DOCUMENT',
+		initData: [{}],
+		columns: [{
+			name: 'Oid',
+			display: 'OID',
+			resizable: true
 		}, {
-			name : 'Type',
-			display : 'Type',
-			resizable : true
+			name: 'Type',
+			display: 'Type',
+			resizable: true
 		}, {
-			name : 'Name',
-			display : 'Name',
-			resizable : true
+			name: 'Name',
+			display: 'Name',
+			resizable: true
 		}, {
-			name : 'Filesize',
-			display : 'File Size(MB)',
-			resizable : true
+			name: 'Filesize',
+			display: 'File Size(MB)',
+			resizable: true
 		}, {
-			name : 'PertinentType',
-			display : 'Pertinent Type',
-			resizable : true,
-			invisible : true
+			name: 'PertinentType',
+			display: 'Pertinent Type',
+			resizable: true,
+			invisible: true
 		}, {
-			name : 'MD5',
-			display : 'MD5',
-			resizable : true,
-			invisible : true
+			name: 'MD5',
+			display: 'MD5',
+			resizable: true,
+			invisible: true
 		}, {
-			name : 'Location',
-			display : 'Location',
-			resizable : true,
-			invisible : true
-		} ],
-		customRowButtons : [ {
-			uiButton : {
-				label : 'Get'
+			name: 'Location',
+			display: 'Location',
+			resizable: true,
+			invisible: true
+		}],
+		customRowButtons: [{
+			uiButton: {
+				label: 'Get'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				GetNotificationByOID(rowData.Oid)
 
 				var result = GetNotificationByOID(rowData.Oid)
@@ -377,66 +393,66 @@ $(document).ready(function() {
 				$('#tbnotificationdoc').appendGrid('setCtrlValue', 'Location', uniqueIndex - 1, component.Location);
 
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'View'
+			uiButton: {
+				label: 'View'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				ViewDocument(rowData)
 			}
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true,
-			remove : true,
-			append : true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true,
+			remove: true,
+			append: true
 		}
 
 	});
 
 	$('#tbnotificationrule').appendGrid({
-		caption : 'Notifications - Business Rules',
-		initData : [ {} ],
-		columns : [ {
-			name : 'Oid',
-			display : 'OID',
-			resizable : true
+		caption: 'Notifications - Business Rules',
+		initData: [{}],
+		columns: [{
+			name: 'Oid',
+			display: 'OID',
+			resizable: true
 		}, {
-			name : 'Type',
-			display : 'Type',
-			resizable : true
+			name: 'Type',
+			display: 'Type',
+			resizable: true
 		}, {
-			name : 'Name',
-			display : 'Name',
-			resizable : true
+			name: 'Name',
+			display: 'Name',
+			resizable: true
 		}, {
-			name : 'Filesize',
-			display : 'File Size(MB)',
-			resizable : true
+			name: 'Filesize',
+			display: 'File Size(MB)',
+			resizable: true
 		}, {
-			name : 'PertinentType',
-			display : 'Pertinent Type',
-			resizable : true,
-			invisible : true
+			name: 'PertinentType',
+			display: 'Pertinent Type',
+			resizable: true,
+			invisible: true
 		}, {
-			name : 'MD5',
-			display : 'MD5',
-			resizable : true,
-			invisible : true
+			name: 'MD5',
+			display: 'MD5',
+			resizable: true,
+			invisible: true
 		}, {
-			name : 'Location',
-			display : 'Location',
-			resizable : true,
-			invisible : true
-		} ],
-		customRowButtons : [ {
-			uiButton : {
-				label : 'Get'
+			name: 'Location',
+			display: 'Location',
+			resizable: true,
+			invisible: true
+		}],
+		customRowButtons: [{
+			uiButton: {
+				label: 'Get'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				GetNotificationByOID(rowData.Oid)
 
 				var result = GetNotificationByOID(rowData.Oid)
@@ -453,312 +469,312 @@ $(document).ready(function() {
 				$('#tbnotificationrule').appendGrid('setCtrlValue', 'Location', uniqueIndex - 1, component.Location);
 
 			},
-			atTheFront : true
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true,
-			remove : true,
-			append : true
+			atTheFront: true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true,
+			remove: true,
+			append: true
 		}
 
 	});
 
 	$('#tbfeature_available').appendGrid({
-		caption : 'Features-Available',
-		initData : [ {} ],
-		columns : [ {
-			name : 'ID',
-			display : 'ID',
-			resizable : true
+		caption: 'Features-Available',
+		initData: [{}],
+		columns: [{
+			name: 'ID',
+			display: 'ID',
+			resizable: true
 		}, {
-			name : 'Name',
-			display : 'Name',
-			resizable : true
+			name: 'Name',
+			display: 'Name',
+			resizable: true
 		}, {
-			name : 'Description',
-			display : 'Description',
-			resizable : true
+			name: 'Description',
+			display: 'Description',
+			resizable: true
 		}, {
-			name : 'Term',
-			display : 'Term',
-			resizable : true,
-			type : 'select',
-			ctrlOptions : {
-				0 : '',
-				1 : 'Permanent',
-				2 : 'Temporary',
-				3 : 'Demo'
+			name: 'Term',
+			display: 'Term',
+			resizable: true,
+			type: 'select',
+			ctrlOptions: {
+				0: '',
+				1: 'Permanent',
+				2: 'Temporary',
+				3: 'Demo'
 			}
 		}, {
-			name : 'StartDate',
-			display : 'Start Date',
-			type : 'ui-datepicker',
-			uiOption : {
-				dateFormat : 'mm/dd/yy'
+			name: 'StartDate',
+			display: 'Start Date',
+			type: 'ui-datepicker',
+			uiOption: {
+				dateFormat: 'mm/dd/yy'
 			},
-			resizable : true
+			resizable: true
 		}, {
-			name : 'Duration',
-			display : 'Duration',
-			resizable : true
+			name: 'Duration',
+			display: 'Duration',
+			resizable: true
 		}, {
-			name : 'LicenseKey',
-			display : 'License Key',
-			resizable : true
+			name: 'LicenseKey',
+			display: 'License Key',
+			resizable: true
 		}, {
-			name : 'LicenseSerialNumber',
-			display : 'License Serial Number',
-			resizable : true,
-			invisible : true
+			name: 'LicenseSerialNumber',
+			display: 'License Serial Number',
+			resizable: true,
+			invisible: true
 		}, {
-			name : 'UpgradeRequired',
-			display : 'Upgrade?',
-			resizable : true
-		} ],
-		customRowButtons : [ {
-			uiButton : {
-				label : 'Start'
+			name: 'UpgradeRequired',
+			display: 'Upgrade?',
+			resizable: true
+		}],
+		customRowButtons: [{
+			uiButton: {
+				label: 'Start'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "start";
 				ChangeFeatureStatus(rowData);
 
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Demo'
+			uiButton: {
+				label: 'Demo'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "demo";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Failed'
+			uiButton: {
+				label: 'Failed'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "failed";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Not Attempted'
+			uiButton: {
+				label: 'Not Attempted'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "not attempted";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true,
-			remove : true,
-			append : true
+			atTheFront: true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true,
+			remove: true,
+			append: true
 		}
 
 	});
 
 	$('#tbfeature_entitled').appendGrid({
-		caption : 'Features-Entitled',
-		initData : [ {} ],
-		columns : [ {
-			name : 'ID',
-			display : 'ID',
-			resizable : true
+		caption: 'Features-Entitled',
+		initData: [{}],
+		columns: [{
+			name: 'ID',
+			display: 'ID',
+			resizable: true
 		}, {
-			name : 'Name',
-			display : 'Name',
-			resizable : true
+			name: 'Name',
+			display: 'Name',
+			resizable: true
 		}, {
-			name : 'Description',
-			display : 'Description',
-			resizable : true
+			name: 'Description',
+			display: 'Description',
+			resizable: true
 		}, {
-			name : 'Term',
-			display : 'Term',
-			resizable : true,
-			type : 'select',
-			ctrlOptions : {
-				0 : '',
-				1 : 'Permanent',
-				2 : 'Temporary',
-				3 : 'Demo'
+			name: 'Term',
+			display: 'Term',
+			resizable: true,
+			type: 'select',
+			ctrlOptions: {
+				0: '',
+				1: 'Permanent',
+				2: 'Temporary',
+				3: 'Demo'
 			}
 		}, {
-			name : 'StartDate',
-			display : 'Start Date',
-			type : 'ui-datepicker',
-			uiOption : {
-				dateFormat : 'mm/dd/yy'
+			name: 'StartDate',
+			display: 'Start Date',
+			type: 'ui-datepicker',
+			uiOption: {
+				dateFormat: 'mm/dd/yy'
 			},
-			resizable : true
+			resizable: true
 		}, {
-			name : 'Duration',
-			display : 'Duration',
-			resizable : true
+			name: 'Duration',
+			display: 'Duration',
+			resizable: true
 		}, {
-			name : 'UpgradeRequired',
-			display : 'Upgrade?',
-			resizable : true
-		} ],
-		customRowButtons : [ {
-			uiButton : {
-				label : 'Start'
+			name: 'UpgradeRequired',
+			display: 'Upgrade?',
+			resizable: true
+		}],
+		customRowButtons: [{
+			uiButton: {
+				label: 'Start'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "start";
 				ChangeFeatureStatus(rowData);
 
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Enabled'
+			uiButton: {
+				label: 'Enabled'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "enabled";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Failed'
+			uiButton: {
+				label: 'Failed'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "failed";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Not Attempted'
+			uiButton: {
+				label: 'Not Attempted'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "not attempted";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true,
-			remove : true,
-			append : true
+			atTheFront: true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true,
+			remove: true,
+			append: true
 		}
 
 	});
 
 	$('#tbfeature_enabled').appendGrid({
-		caption : 'Features-Enabled',
-		initData : [ {} ],
-		columns : [ {
-			name : 'ID',
-			display : 'ID',
-			resizable : true
+		caption: 'Features-Enabled',
+		initData: [{}],
+		columns: [{
+			name: 'ID',
+			display: 'ID',
+			resizable: true
 		}, {
-			name : 'Name',
-			display : 'Name',
-			resizable : true
+			name: 'Name',
+			display: 'Name',
+			resizable: true
 		}, {
-			name : 'Description',
-			display : 'Description',
-			resizable : true
+			name: 'Description',
+			display: 'Description',
+			resizable: true
 		}, {
-			name : 'Term',
-			display : 'Term',
-			resizable : true,
-			type : 'select',
-			ctrlOptions : {
-				0 : '',
-				1 : 'Permanent',
-				2 : 'Temporary',
-				3 : 'Demo'
+			name: 'Term',
+			display: 'Term',
+			resizable: true,
+			type: 'select',
+			ctrlOptions: {
+				0: '',
+				1: 'Permanent',
+				2: 'Temporary',
+				3: 'Demo'
 			}
 		}, {
-			name : 'StartDate',
-			display : 'Start Date',
-			type : 'ui-datepicker',
-			uiOption : {
-				dateFormat : 'mm/dd/yy'
+			name: 'StartDate',
+			display: 'Start Date',
+			type: 'ui-datepicker',
+			uiOption: {
+				dateFormat: 'mm/dd/yy'
 			},
-			resizable : true
+			resizable: true
 		}, {
-			name : 'Duration',
-			display : 'Duration',
-			resizable : true
+			name: 'Duration',
+			display: 'Duration',
+			resizable: true
 		}, {
-			name : 'UpgradeRequired',
-			display : 'Upgrade?',
-			resizable : true
-		} ],
-		customRowButtons : [ {
-			uiButton : {
-				label : 'Start'
+			name: 'UpgradeRequired',
+			display: 'Upgrade?',
+			resizable: true
+		}],
+		customRowButtons: [{
+			uiButton: {
+				label: 'Start'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "start";
 				ChangeFeatureStatus(rowData);
 
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Disabled'
+			uiButton: {
+				label: 'Disabled'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "disabled";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Failed'
+			uiButton: {
+				label: 'Failed'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "failed";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
+			atTheFront: true
 		}, {
-			uiButton : {
-				label : 'Not Attempted'
+			uiButton: {
+				label: 'Not Attempted'
 			},
-			click : function(evtObj, uniqueIndex, rowData) {
+			click: function(evtObj, uniqueIndex, rowData) {
 				rowData.Status = "not attempted";
 				ChangeFeatureStatus(rowData);
 			},
-			atTheFront : true
-		} ],
-		hideButtons : {
-			insert : true,
-			moveUp : true,
-			moveDown : true,
-			removeLast : true,
-			remove : true,
-			append : true
+			atTheFront: true
+		}],
+		hideButtons: {
+			insert: true,
+			moveUp: true,
+			moveDown: true,
+			removeLast: true,
+			remove: true,
+			append: true
 		}
 
 	});
 
 	$('#btncreatesession').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/createsession",
-			data : {
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/createsession",
+			data: {
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}
@@ -771,13 +787,13 @@ $(document).ready(function() {
 
 	$('#btnstopbootloader').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/servicemanage",
-			data : {
-				"name" : SERVICE_NAME_BOOTLOADER,
-				"command" : "stop"
+			type: "POST",
+			url: "/servicemanage",
+			data: {
+				"name": SERVICE_NAME_BOOTLOADER,
+				"command": "stop"
 			},
-			success : function(result) {
+			success: function(result) {
 				/*
 				 * if (result.length > 0) {
 				 * UpdateMessageinWeb(JSON.parse(result)); }
@@ -789,13 +805,13 @@ $(document).ready(function() {
 
 	$('#btnstartbootloader').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/servicemanage",
-			data : {
-				"name" : SERVICE_NAME_BOOTLOADER,
-				"command" : "start"
+			type: "POST",
+			url: "/servicemanage",
+			data: {
+				"name": SERVICE_NAME_BOOTLOADER,
+				"command": "start"
 			},
-			success : function(result) {
+			success: function(result) {
 				/*
 				 * if (result.length > 0) {
 				 * UpdateMessageinWeb(JSON.parse(result)); }
@@ -807,13 +823,13 @@ $(document).ready(function() {
 
 	$('#btnstopagent').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/servicemanage",
-			data : {
-				"name" : SERVICE_NAME_LAPTOPAGENT,
-				"command" : "stop"
+			type: "POST",
+			url: "/servicemanage",
+			data: {
+				"name": SERVICE_NAME_LAPTOPAGENT,
+				"command": "stop"
 			},
-			success : function(result) {
+			success: function(result) {
 				/*
 				 * if (result.length > 0) {
 				 * UpdateMessageinWeb(JSON.parse(result)); }
@@ -825,13 +841,13 @@ $(document).ready(function() {
 
 	$('#btnstartagent').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/servicemanage",
-			data : {
-				"name" : SERVICE_NAME_LAPTOPAGENT,
-				"command" : "start"
+			type: "POST",
+			url: "/servicemanage",
+			data: {
+				"name": SERVICE_NAME_LAPTOPAGENT,
+				"command": "start"
 			},
-			success : function(result) {
+			success: function(result) {
 				/*
 				 * if (result.length > 0) {
 				 * UpdateMessageinWeb(JSON.parse(result)); }
@@ -843,12 +859,12 @@ $(document).ready(function() {
 
 	$('#btnclosesession').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/closesession",
-			data : {
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/closesession",
+			data: {
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}
@@ -858,14 +874,14 @@ $(document).ready(function() {
 
 	$('#btnlogin').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/login",
-			data : {
-				"username" : $('#username').val(),
-				"password" : $('#password').val(),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/login",
+			data: {
+				"username": $('#username').val(),
+				"password": $('#password').val(),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}
@@ -875,51 +891,51 @@ $(document).ready(function() {
 
 	$('#btnlogoff').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/logoff",
-			data : {
-				"username" : $('#username').val(),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/logoff",
+			data: {
+				"username": $('#username').val(),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}
 			}
 		});
 	})
-	
-		
+
+
 	$('#btnselfreg').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/selfreg",
-			data : {
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/selfreg",
+			data: {
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 					var url = GetSelfRegURL(JSON.parse(result));
 					$('#aselfreg').attr('href', url);
 					$('#aselfreg').text(url);
-				}			
+				}
 			}
 		});
 	});
 
 	$('#btnstatdevice').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/statdevice",
-			data : {
-				"serialnumber" : $('#serialnumber').val(),
-				"devicetype" : $('#devicetype').val(),
-				"country" : $('#country').val(),
-				"agentip" : $('#tagentip').val(),
+			type: "POST",
+			url: "/statdevice",
+			data: {
+				"serialnumber": $('#serialnumber').val(),
+				"devicetype": $('#devicetype').val(),
+				"country": $('#country').val(),
+				"agentip": $('#tagentip').val(),
 				"usenc": $('#checkusenc').prop('checked')
 			},
-			success : function(result) {
+			success: function(result) {
 
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
@@ -933,57 +949,57 @@ $(document).ready(function() {
 
 	$('#btncreatedevice').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/createdevice",
-			data : {
-				"serialnumber" : $('#serialnumber').val(),
-				"devicetype" : $('#devicetype').val(),
-				"country" : $('#country').val(),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/createdevice",
+			data: {
+				"serialnumber": $('#serialnumber').val(),
+				"devicetype": $('#devicetype').val(),
+				"country": $('#country').val(),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}
 			}
 		});
 	})
-	
+
 	$('#btnsyncdevicecfg').click(function() {
 		var sw = $('#tbsoftware').appendGrid('getAllValue');
 		var hw = $('#tbhardware').appendGrid('getAllValue');
-		
+
 		$.ajax({
-			type : "POST",
-			url : "/syncdevicecfg",
-			data : {
-				"serialnumber" : $('#serialnumber').val(),
-				"devicetype" : $('#devicetype').val(),
-				"country" : $('#country').val(),
-				"software" : JSON.stringify(sw),
-				"hardware" : JSON.stringify(hw),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/syncdevicecfg",
+			data: {
+				"serialnumber": $('#serialnumber').val(),
+				"devicetype": $('#devicetype').val(),
+				"country": $('#country').val(),
+				"software": JSON.stringify(sw),
+				"hardware": JSON.stringify(hw),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}
 			}
 		});
 	})
-	
-	
+
+
 
 	$('#btngetheaders').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/getheaders",
-			data : {
-				"serialnumber" : $('#serialnumber').val(),
-				"devicetype" : $('#devicetype').val(),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/getheaders",
+			data: {
+				"serialnumber": $('#serialnumber').val(),
+				"devicetype": $('#devicetype').val(),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 					ProcHeaders(JSON.parse(result));
@@ -992,21 +1008,21 @@ $(document).ready(function() {
 			}
 		});
 	})
-	
+
 	$('#btngetmatchedcfg').click(function() {
 		var sw = $('#tbsoftware').appendGrid('getAllValue');
 		var hw = $('#tbhardware').appendGrid('getAllValue');
 		$.ajax({
-			type : "POST",
-			url : "/getmatchedcfg",
-			data : {
-				"serialnumber" : $('#serialnumber').val(),
-				"devicetype" : $('#devicetype').val(),
-				"software" : JSON.stringify(sw),
-				"hardware" : JSON.stringify(hw),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/getmatchedcfg",
+			data: {
+				"serialnumber": $('#serialnumber').val(),
+				"devicetype": $('#devicetype').val(),
+				"software": JSON.stringify(sw),
+				"hardware": JSON.stringify(hw),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 					ProcHeaders(JSON.parse(result));
@@ -1018,15 +1034,15 @@ $(document).ready(function() {
 
 	$('#btngetrules').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/getrules",
-			data : {
-				"serialnumber" : $('#serialnumber').val(),
-				"devicetypename" : $('#devicetype')[0].options[$('#devicetype')[0].selectedIndex].text,
-				"devicetype" : $('#devicetype').val(),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/getrules",
+			data: {
+				"serialnumber": $('#serialnumber').val(),
+				"devicetypename": $('#devicetype')[0].options[$('#devicetype')[0].selectedIndex].text,
+				"devicetype": $('#devicetype').val(),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 					ProcRules(JSON.parse(result));
@@ -1041,17 +1057,17 @@ $(document).ready(function() {
 		var hw = $('#tbhardware').appendGrid('getAllValue');
 
 		$.ajax({
-			type : "POST",
-			url : "/postnotification",
-			data : {
-				"serialnumber" : $('#serialnumber').val(),
-				"devicetype" : $('#devicetype').val(),
-				"country" : $('#country').val(),
-				"software" : JSON.stringify(sw),
-				"hardware" : JSON.stringify(hw),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/postnotification",
+			data: {
+				"serialnumber": $('#serialnumber').val(),
+				"devicetype": $('#devicetype').val(),
+				"country": $('#country').val(),
+				"software": JSON.stringify(sw),
+				"hardware": JSON.stringify(hw),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}
@@ -1061,13 +1077,13 @@ $(document).ready(function() {
 	});
 	$('#btnsend').click(function() {
 		$.ajax({
-			type : "POST",
-			url : "/sendMessage",
-			data : {
-				"request" : $('#tarequest').val(),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/sendMessage",
+			data: {
+				"request": $('#tarequest').val(),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}
@@ -1106,129 +1122,129 @@ $(document).ready(function() {
 		var devicetype = $('#devicetype').val()
 		if (devicetype == '7a85f0c9-531e-4754-ad68-04c77ed63657') {
 
-			initswdata = [ {
-				'ComponentType' : 'software',
-				'Name' : 'BdSoftware',
-				'PartNumber' : '10125908',
-				'Revision' : 'A'
-			} ];
+			initswdata = [{
+				'ComponentType': 'software',
+				'Name': 'BdSoftware',
+				'PartNumber': '10125908',
+				'Revision': 'A'
+			}];
 
-			inithwdata = [ {
-				'Name' : 'BdPcba',
-				'PartNumber' : '11111111',
-				'Revision' : 'X00'
+			inithwdata = [{
+				'Name': 'BdPcba',
+				'PartNumber': '11111111',
+				'Revision': 'X00'
 			}, {
-				'Name' : 'GuiPcba',
-				'PartNumber' : '21111111',
-				'Revision' : 'X00'
-			} ];
+				'Name': 'GuiPcba',
+				'PartNumber': '21111111',
+				'Revision': 'X00'
+			}];
 
 		} else if (devicetype == '61e08b77-df3c-4735-9f3b-0b42efb7bdcf') {
 
-			initswdata = [ {
-				'ComponentType' : 'software',
-				'Name' : 'Control',
-				'PartNumber' : '0',
-				'Revision' : '01.08.01'
-			} ];
+			initswdata = [{
+				'ComponentType': 'software',
+				'Name': 'Control',
+				'PartNumber': '0',
+				'Revision': '01.08.01'
+			}];
 
-			inithwdata = [ {
-				'Name' : 'WINTEL',
-				'PartNumber' : 'ABC',
-				'Revision' : '1.0'
+			inithwdata = [{
+				'Name': 'WINTEL',
+				'PartNumber': 'ABC',
+				'Revision': '1.0'
 			}, {
-				'Name' : 'Control Board',
-				'PartNumber' : '0',
-				'Revision' : '0'
-			} ];
+				'Name': 'Control Board',
+				'PartNumber': '0',
+				'Revision': '0'
+			}];
 
 		} else if (devicetype == '3B682913-6D1E-4355-9E48-208EB7061A3D') {
 
-			initswdata = [ {
-				'ComponentType' : 'software',
-				'Name' : 'Valleylab LS10 Software Package',
-				'PartNumber' : '0',
-				'Revision' : '00.62'
-			} ];
-			inithwdata = [ {
-				'Name' : 'Main PCBA',
-				'PartNumber' : '0008675309',
-				'Revision' : '00'
+			initswdata = [{
+				'ComponentType': 'software',
+				'Name': 'Valleylab LS10 Software Package',
+				'PartNumber': '0',
+				'Revision': '00.62'
+			}];
+			inithwdata = [{
+				'Name': 'Main PCBA',
+				'PartNumber': '0008675309',
+				'Revision': '00'
 			}, {
-				'Name' : 'VIBE',
-				'PartNumber' : 'JDK-1901',
-				'Revision' : 'F'
-			} ];
+				'Name': 'VIBE',
+				'PartNumber': 'JDK-1901',
+				'Revision': 'F'
+			}];
 
-		}else if (devicetype == 'CEFC1E07-CFF6-4F27-AB05-4577A33A1BA8'){
-			initswdata = [ {
-				'ComponentType' : 'software',
-				'Name' : 'Perc',
-				'PartNumber' : '1111',
-				'Revision' : '46'
-			} ];
-			inithwdata = [ {
-				'Name' : 'Controller',
-				'PartNumber' : '1078620',
-				'Revision' : 'A'
-			}, {
-				'Name' : 'SteeringRelay',
-				'PartNumber' : '1070817',
-				'Revision' : 'A'
-			} , {
-				'Name' : 'Rf',
-				'PartNumber' : '1070821',
-				'Revision' : 'B'
-			}, {
-				'Name' : 'PowerSupply',
-				'PartNumber' : '1054954',
-				'Revision' : 'B'
-			}, {
-				'Name' : 'FrontPanel',
-				'PartNumber' : '1078579',
-				'Revision' : 'A'
-			}, {
-				'Name' : 'Vibe',
-				'PartNumber' : '1070817',
-				'Revision' : 'A'
+		} else if (devicetype == 'CEFC1E07-CFF6-4F27-AB05-4577A33A1BA8') {
+			initswdata = [{
+				'ComponentType': 'software',
+				'Name': 'Perc',
+				'PartNumber': '1111',
+				'Revision': '46'
 			}];
-			
-			
-			
-		}else if (devicetype == '61BF648E-3181-41e4-9EF2-222F8DF8B538'){
-			initswdata = [ {
-				'ComponentType' : 'software',
-				'Name' : 'Perc',
-				'PartNumber' : '1111',
-				'Revision' : '46'
-			} ];
-			inithwdata = [ {
-				'Name' : 'Controller',
-				'PartNumber' : '1078620',
-				'Revision' : 'A'
+			inithwdata = [{
+				'Name': 'Controller',
+				'PartNumber': '1078620',
+				'Revision': 'A'
 			}, {
-				'Name' : 'SteeringRelay',
-				'PartNumber' : '1070817',
-				'Revision' : 'A'
-			} , {
-				'Name' : 'Rf',
-				'PartNumber' : '1070821',
-				'Revision' : 'B'
+				'Name': 'SteeringRelay',
+				'PartNumber': '1070817',
+				'Revision': 'A'
 			}, {
-				'Name' : 'PowerSupply',
-				'PartNumber' : '1054954',
-				'Revision' : 'B'
+				'Name': 'Rf',
+				'PartNumber': '1070821',
+				'Revision': 'B'
 			}, {
-				'Name' : 'FrontPanel',
-				'PartNumber' : '1078579',
-				'Revision' : 'A'
+				'Name': 'PowerSupply',
+				'PartNumber': '1054954',
+				'Revision': 'B'
 			}, {
-				'Name' : 'Vibe',
-				'PartNumber' : '1070817',
-				'Revision' : 'A'
+				'Name': 'FrontPanel',
+				'PartNumber': '1078579',
+				'Revision': 'A'
+			}, {
+				'Name': 'Vibe',
+				'PartNumber': '1070817',
+				'Revision': 'A'
 			}];
-			
-		}else {
+
+
+
+		} else if (devicetype == '61BF648E-3181-41e4-9EF2-222F8DF8B538') {
+			initswdata = [{
+				'ComponentType': 'software',
+				'Name': 'Perc',
+				'PartNumber': '1111',
+				'Revision': '46'
+			}];
+			inithwdata = [{
+				'Name': 'Controller',
+				'PartNumber': '1078620',
+				'Revision': 'A'
+			}, {
+				'Name': 'SteeringRelay',
+				'PartNumber': '1070817',
+				'Revision': 'A'
+			}, {
+				'Name': 'Rf',
+				'PartNumber': '1070821',
+				'Revision': 'B'
+			}, {
+				'Name': 'PowerSupply',
+				'PartNumber': '1054954',
+				'Revision': 'B'
+			}, {
+				'Name': 'FrontPanel',
+				'PartNumber': '1078579',
+				'Revision': 'A'
+			}, {
+				'Name': 'Vibe',
+				'PartNumber': '1070817',
+				'Revision': 'A'
+			}];
+
+		} else {
 			initswdata = null;
 			inithwdata = null;
 		}
@@ -1248,12 +1264,12 @@ $(document).ready(function() {
 		form_data.append("agentip", $('#tagentip').val());
 
 		$.ajax({
-			type : "POST",
-			url : "/uploadlog",
-			data : form_data,
-			contentType : false,
-			processData : false,
-			success : function(result) {
+			type: "POST",
+			url: "/uploadlog",
+			data: form_data,
+			contentType: false,
+			processData: false,
+			success: function(result) {
 				UpdateMessageinWeb(JSON.parse(result));
 			}
 		});
@@ -1263,17 +1279,17 @@ $(document).ready(function() {
 	$('#btnclientupdate').click(function() {
 		var sw = $('#tbsoftware').appendGrid('getAllValue');
 		$.ajax({
-			type : "POST",
-			url : "/clientupdate",
-			data : {
-				"serialnumber" : $('#serialnumber').val(),
-				"devicetypename" : $('#devicetype')[0].options[$('#devicetype')[0].selectedIndex].text,
-				"country" : $('#country').val(),
-				"devicetypeuid" : $('#devicetype').val(),
-				"software" : JSON.stringify(sw),
-				"agentip" : $('#tagentip').val()
+			type: "POST",
+			url: "/clientupdate",
+			data: {
+				"serialnumber": $('#serialnumber').val(),
+				"devicetypename": $('#devicetype')[0].options[$('#devicetype')[0].selectedIndex].text,
+				"country": $('#country').val(),
+				"devicetypeuid": $('#devicetype').val(),
+				"software": JSON.stringify(sw),
+				"agentip": $('#tagentip').val()
 			},
-			success : function(result) {
+			success: function(result) {
 				if (result.length > 0) {
 					UpdateMessageinWeb(JSON.parse(result));
 				}

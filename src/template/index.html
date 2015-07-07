@@ -57,6 +57,7 @@
 		<button name="btnlogoff" id="btnlogoff" type="button">Logoff</button>		
 		<button id="btnselfreg">Self-Registration</button>
 		<a id='aselfreg' href=''></a>
+		<button id="btnhidediv">Hidden</button>
 		<br> Device Type: <select name="devicetype" id="devicetype">
 			<option value="7a85f0c9-531e-4754-ad68-04c77ed63657">PB980_Ventilator</option>
 			<option value="61e08b77-df3c-4735-9f3b-0b42efb7bdcf" selected>SCD 700</option>
@@ -70,7 +71,7 @@
 			<option value="71C3D34A-BDB2-4B3E-9940-208E1383E47F">CV1</option>
 			<option value="CED7070B-0F36-43E0-BFD4-8282E3393A76">iDrive</option>
 			<option value="74C44BFD-0677-4b3a-AE67-7070FCD5A720">PM100N</option>
-			<option value="61BF648E-3181-41e4-9EF2-222F8DF8B538">Emprint Planning Software</option>
+			<option value="61BF648E-3181-41e4-9EF2-222F8DF8B538">Emprint Procedure Planning Application</option>
 		</select> Country: <select name="country" id="country">
 			<option value="AD">AD</option>
 			<option value="AE">AE</option>
@@ -327,10 +328,15 @@
 		<button name="btnstatdevice" id="btnstatdevice" type="button">StatDevice</button>		
 		<input type='checkbox' id="checkusenc">Use Named Configuration</input>
 		<button name="btnsyncdevicecfg" id="btnsyncdevicecfg" type="button">SyncDeviceCfg</button>
+		<button name="btnpostnotification" id="btnpostnotification" type="button">DeviceInfo</button>
+		<button name="btngetheaders" id="btngetheaders" type="button">GetHeaders</button>
+		<button name="btngetmatchedcfg" id="btngetmatchedcfg" type="button">GetMatchedConfig</button>
+		<button name="btnclientupdate" id="btnclientupdate" type="button">Client Update</button>
+	    <button name="btngetrules" id="btngetrules" type="button">GetRules</button>
 
 	</div>
 
-	<div id="divtables">
+	<div id="divswhwtables">
 		<div id="leftDiv">
 			<table id="tbhardware"></table>
 		</div>
@@ -339,16 +345,14 @@
 		</div>
 	</div>
 
-	<div>
+	<div hidden>
 		<table id="tbfeature_available"></table>
 		<table id="tbfeature_entitled"></table>
 		<table id="tbfeature_enabled"></table>
 	</div>
 
-	<div>
-		<button name="btnpostnotification" id="btnpostnotification" type="button">DeviceInfo</button>
-		<button name="btngetheaders" id="btngetheaders" type="button">GetHeaders</button>
-		<button name="btngetmatchedcfg" id="btngetmatchedcfg" type="button">GetMatchedConfig</button>
+	<div id="divnotification">
+		
 		
 		
 
@@ -357,9 +361,8 @@
 
 	</div>
 	
-	<div>
-	<button name="btnclientupdate" id="btnclientupdate" type="button">Client Update</button>
-	<button name="btngetrules" id="btngetrules" type="button">GetRules</button>
+	<div id="divsnotificationrule">
+
 	<table id="tbnotificationrule"></table>
 	</div>
 	<div>
@@ -370,11 +373,11 @@
 
 
 	<div>
-		<textarea name="request" id="tarequest" rows="5" cols="160"></textarea>
+		<textarea name="request" id="tarequest" rows="16" cols="160"></textarea>
 		<button name="btnsend" id="btnsend" type="button">Send</button>
 	</div>
 	<div>
-		<textarea readonly id="taresponse" rows="10" cols="160"></textarea>
+		<textarea readonly id="taresponse" rows="16" cols="160"></textarea>
 	</div>
 	<div>
 		<textarea readonly id="tastatus" rows="2" cols="160"></textarea>

@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"code.google.com/p/go-uuid/uuid"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -16,6 +15,8 @@ import (
 	"os/exec"
 	"strings"
 	"time"
+
+	"code.google.com/p/go-uuid/uuid"
 )
 
 type Param struct {
@@ -381,10 +382,31 @@ func (m *MessageString) SendResponse(w http.ResponseWriter) error {
 	return nil
 }
 
+func replceSessionID(sessionid string, msg string) string {
+	var result string
+
+	if strings.Contains(msg, "session_guid") {
+		i := strings.Index(msg, "session_guid")
+		first := i + len("session_guid") + 2
+		second := first + 36
+		result = msg[:first] + sessionid + msg[second:]
+	} else {
+		result = msg
+	}
+	return result
+
+}
+
 func sendHandler(w http.ResponseWriter, r *http.Request) {
 
 	msg := MessageString{}
-	msg.Request = r.FormValue("request")
+	sessionid, err := r.Cookie(COOKIE_SESSION_ID)
+	if err != nil {
+		msg.Request = r.FormValue("request")
+	} else {
+		msg.Request = replceSessionID(sessionid.Value, r.FormValue("request"))
+	}
+
 	ip := r.FormValue("agentip")
 	msg.ProcessMessage(ip)
 	msg.FormatResponse()
@@ -620,7 +642,7 @@ func getheaderHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func getMatchedConfigHandler(w http.ResponseWriter, r *http.Request) {
-msg := MessageString{}
+	msg := MessageString{}
 	err := msg.InitRequest("postnotification", r)
 
 	if err != nil {
